@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+<script src="js/jquery-1.6.1.min.js"></script>
+<link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" charset="utf-8" />
+<script src="js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://yui.yahooapis.com/3.4.1/build/yui/yui-min.js"></script>
+<script>
+YUI().use('node', 'yql', function(Y){
+
+    var oby;
+    var searchInput = Y.one('#search');
+    var searchSubmit = Y.one('#searchButton');
+    var query = "band of horses";
+    var select = "select * from youtube.search where query=" +query;
+    searchSubmit.on('click', function(){
+       var x = searchInput.get('value');
+        console.log(x);
+    });
+
+    var q = Y.YQL('select * from youtube.search where query="band of horses"', function(r) {
+        //r now contains the result of the YQL Query
+		//use the YQL Developer console to learn
+		//what data is coming back in this object
+		//and how that data is structured.
+        oby = r;
+        createGallery(r)
+    });
+
+    function createGallery (r) {
+        var videoList = r.query.results.video;
+        var url, thumbnail, thumbHeight, thumbWidth;
+        var container = Y.one('#gallery');
+        var pretty = "prettyPhoto";
+
+        for (var i=0, list = videoList.length; i< list; i++) {
+            url             = videoList[i].url;
+            thumbnail       = videoList[i].thumbnails.thumbnail[0].content;
+            thumbHeight     = videoList[i].thumbnails.thumbnail[0].height;
+            thumbWidth      = videoList[i].thumbnails.thumbnail[0].width;
+
+            var link = Y.Node.create('<a href='+ url+'><img src=' +thumbnail+ ' width='+thumbWidth+ ' height=' +thumbHeight+ '></a>');
+            link.setAttribute('rel', pretty);
+            container.appendChild(link);
+
+
+        }
+        var link1 = Y.Node.create('<a href="http://www.youtube.com/watch?v=8mDkKam2aHw&feature=youtube_gdata_player" rel="prettyPhoto" title=""><img src="images/thumbnails/flash-logo.jpg" alt="YouTube" width="60" /></a>')
+       container.appendChild(link1);
+
+    }
+
+
+/*
+Y.one('#trigger').on('click', function(){
+
+    console.log(oby);
+    console.log(oby.query.results.video[0]);
+
+})
+*/
+
+})
+
+
+
+
+
+
+</script>
+
+</head>
+<body>
+<button id="trigger">My Name is Clicky</button>
+<form id="myForm">
+    <input type=text id="search"/>
+    <button id="searchButton">search</button>
+ </form>
+
+<div id="gallery">
+
+</div>
+<a href="http://www.youtube.com/watch?v=8mDkKam2aHw&feature=youtube_gdata_player" rel="prettyPhoto" title=""><img src="images/thumbnails/flash-logo.jpg" alt="YouTube" width="60" /></a>
+ <a href="http://www.youtube.com/watch?v=Obu1hVsc8IE&feature=youtube_gdata_player" rel="prettyPhoto">
+<img width="120" height="90" src="http://i.ytimg.com/vi/Obu1hVsc8IE/default.jpg"></a>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function(){
+      $('#trigger').click(function(){
+          console.log("trigger clicked");
+        $("a[rel^='prettyPhoto']").prettyPhoto();
+      })
+
+  });
+</script>
+</body>
+</html>

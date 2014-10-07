@@ -1,0 +1,26 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "authors": [
+    "Ryan Ford <ryno412@gmail.com>"
+  ],
+  "description": "simple-app",
+  "main": "server.js",
+  "keywords": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "handlebars": "~2.0.0",
+    "underscore": "~1.5.2",
+    "jquery": "~2.1.0",
+    "bootstrap": "~3.2.0"
+  }
+}
